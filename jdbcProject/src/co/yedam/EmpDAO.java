@@ -26,7 +26,7 @@ public class EmpDAO {
 		}	
 					// 사원목록 기능
 	List<Employee> empList() {
-		getConn();adadadadadada
+		getConn();
 		List<Employee> list = new ArrayList<>();
 		String sql = "select * from emp order by emp_no";
 		try {
