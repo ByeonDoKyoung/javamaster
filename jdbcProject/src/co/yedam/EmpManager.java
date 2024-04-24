@@ -23,7 +23,7 @@ public class EmpManager {
 				List<Employee> emps = dao.empList();
 				// 타이틀
 				System.out.println("사번 이 름   이메일    급여");
-				System.out.println("-------------------------");
+				System.out.println("------------------------------");
 				for(Employee emp : emps) {
 					System.out.println(emp.showInfo());
 				}
