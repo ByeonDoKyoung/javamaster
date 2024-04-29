@@ -14,7 +14,8 @@ public class UsersDAO {
 	ResultSet rs;
 	
 	private void getConn(){
-		String url = "jdbc:oracle:thin:@localhost:1521:xe";
+		String url = "jdbc:oracle:thin:@192.168.0.64:1521:xe";
+		
 			try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			conn = DriverManager.getConnection(url, "jsp", "jsp");
@@ -23,24 +24,29 @@ public class UsersDAO {
 				return;
 			}
 		}	
-
-	void login(Users user) {
+	// 로그인
+	public boolean login(Users user) {
 		getConn();
-		String sql = "String users_id, String users_pw";
+		String sql = "select * from users where users_id =? and users_pw = ?";
 		try {
 			psmt = conn.prepareStatement(sql);
-			rs = psmt.executeQuery();		
-			}catch (SQLException e) {
-			e.printStackTrace();	
-			}
-			return;
-			}
-	
-	
-	boolean insertusers(Users user) {
+			psmt.setString(1, user.getUsersId());
+			psmt.setString(2, user.getUsersPw());
+			rs = psmt.executeQuery();
+			
+			if(rs != null) {
+				return true;
+			} 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	// 등록
+	public boolean insertusers(Users user) {
 		getConn();
-		String sql = "insert into users (users_date,susers_id, users_pw, users_name, users_birthday, users_phone)\r\n"
-				+ "values (users_seq.nextval, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into users (users_date, users_id, users_pw, users_name, users_birthday, users_phone)\r\n"
+				+ "values (?, ?, ?, ?, ?, ?)";
 		try {
 			psmt = conn.prepareStatement(sql);
 			psmt.setString(1, user.getUsersDate());
@@ -60,17 +66,19 @@ public class UsersDAO {
 		return false;
 	}
 	
-	
-	
-
-	boolean Updateusers(Users user) {
+	// 수정
+	public boolean Updateusers(Users user) {
 		getConn();
-		String sql = "Update  users";
+		
+		String sql = "Update users";
+		sql += "set users_name =?, users_phone = ?";
 		sql += "where users_Id = ? ";
 		
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setString(1, user.getUsersId());
+			psmt.setString(1, user.getUsersName());
+			psmt.setString(2, user.getUsersPhone());
+			psmt.setString(3, user.getUsersId());
 			
 			
 			int r = psmt.executeUpdate();
@@ -84,14 +92,15 @@ public class UsersDAO {
 	}
 	
 	
-	boolean deleteusers(int eno) {
+	public boolean deleteusers(Users user) {
 		getConn();
 		String sql = "delete from users"
 				+ "where users_Id = ?";
 		
 		try {
 			psmt = conn.prepareStatement(sql);
-			psmt.setInt(1, eno);
+			psmt.setString(1, user.getUsersId());
+			
 			int r = psmt.executeUpdate();
 			if(r > 0) {
 				return true;
