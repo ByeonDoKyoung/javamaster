@@ -3,3 +3,64 @@
 /.classpath
 /.project
 
+
+
+비동기방식처리:
+
+html(fetch) => Servlet -> EmpDAO -> DB.
+emp.html empJson.json EmpDAO 오라클.
+
+let eno = -1;
+	
+	table.on('click', 'tbody tr', (e) => {
+		console.log(e)
+	    let classList = e.currentTarget.classList;
+	 
+	    if (classList.contains('selected')) {
+	        classList.remove('selected');
+	    }
+	    else {
+	        table.rows('.selected').nodes().each((row) => row.classList.remove('selected'));
+	        classList.add('selected');
+	    }
+	});
+	 
+	document.querySelector('#button').addEventListener('click', function () {
+	    fetch('..//deleteEmp.json?eno='+eno)
+	    .then(result => result.json())
+		.then(result.retCode == 'OK') {
+	    	table.row('.selected').remove().draw(false);
+	    }else{
+	    	alert('처리중 에러')
+	    }
+		
+		table.row('.selected').remove().draw(false);
+	});
+
+https://developers.google.com/chart/interactive/docs/gallery/piechart?hl=ko //차트
+
+
+
+http://localhost:8080/myhome/empJson.json
+/myhome/empJson.json?empNo=100
+/target/
+
+
+
+project: myServlet
+EmpMapper.xml
+
+context: 프로젝트.(webapp/myinfo/index.jsp)
+http://localhost:8080/myServlet1/myinfo/index.jsp
+
+abc.do?name=Hong&age=20 요청.
+
+
+http://localhost:8080/myServlet1/info/registerEmp.jsp
+
+디자인패턴: mvc(2) 패턴.
+
+view: jsp
+control: servlet
+model: mybatis, vo
+ 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 깃허브
